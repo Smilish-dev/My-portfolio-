@@ -79,3 +79,11 @@ select option{background:var(--navy)}.err{color:var(--blue-s);font-size:.82rem}.
 .simg{width:100%;height:150px;object-fit:cover;border-radius:12px;margin-bottom:18px;display:block}.pimg{width:100%;height:190px;object-fit:cover;display:block}.mimg{width:100%;max-height:320px;object-fit:cover;border-radius:16px;margin-top:8px;margin-bottom:12px;display:block}
 .price{display:block;color:var(--blue-s);font-size:1.15rem;margin-top:14px}.more{display:inline-block;margin-top:20px;color:var(--blue-b);font-size:.9rem}.cta{margin-top:28px}.pre{white-space:pre-line;margin-top:14px}
 .imgf{display:grid;gap:10px;color:var(--muted);font-size:.9rem}.imgf img{max-width:100%;max-height:180px;object-fit:cover;border-radius:12px}
+.hero3d{position:fixed;pointer-events:none}main,.foot{position:relative;z-index:1}.marquee{background:rgba(5,9,20,.65);backdrop-filter:blur(8px)}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:linear-gradient(90deg,var(--blue),var(--blue-s));transform-origin:left;transform:scaleX(0);box-shadow:0 0 12px rgba(79,124,255,.7)}
+.card{position:relative}.card::before{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(360px circle at var(--mx,50%) var(--my,-50%),rgba(79,124,255,.2),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}.card:hover::before{opacity:1}
+@keyframes up{from{opacity:0;transform:translateY(40px)}}@keyframes shine{to{background-position:100% 50%}}
+.ln{display:block;opacity:0;transform:translateY(40px);animation:up .9s cubic-bezier(.2,.7,.2,1) forwards}.ln:nth-child(2){animation-delay:.12s}
+.ln.grad{background-size:200% 100%;animation:up .9s cubic-bezier(.2,.7,.2,1) .24s forwards,shine 6s ease-in-out 1.2s infinite alternate}
+.hero .lead{animation:up .9s cubic-bezier(.2,.7,.2,1) .45s both}.hero .row{animation:up .9s cubic-bezier(.2,.7,.2,1) .6s both}
+@media(prefers-reduced-motion:reduce){.ln{opacity:1!important;transform:none!important}}
