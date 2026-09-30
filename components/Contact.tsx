@@ -11,7 +11,7 @@ export default function Contact({links,status,options}:{links:Links;status:strin
     setErr(x);setMsg('');if(Object.keys(x).length)return;
     setBusy(true);try{const r=await submitRequest({name:d.name,email:d.email,service:d.service,message:d.message});
       if(r==='sent'){setMsg('Request sent. Thank you.');f.reset()}else setMsg('Your details are valid, but no email service is connected yet, so nothing was sent.')}
-    catch{setMsg('Sending failed. Please try again.')}setBusy(false)}
+    catch(e){setMsg(e instanceof Error?e.message:'Sending failed. Please try again.')}setBusy(false)}
   const E=({k}:{k:string})=>err[k]?<span className="err" role="alert">{err[k]}</span>:null;
   return <section id="contact" className="sec wrap contact" aria-labelledby="ct">
     <Reveal><h2 id="ct">Have a business problem?<br/>Let&apos;s build the system.</h2><p className="sub">Tell me what you&apos;re trying to improve, automate or launch. I&apos;ll turn the idea into a clear technical direction.</p>{status&&<p className="avail">● {status}</p>}<ContactLinks links={links}/></Reveal>
