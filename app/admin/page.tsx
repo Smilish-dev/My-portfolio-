@@ -17,7 +17,7 @@ export default function Admin(){
   useEffect(()=>{if(!dirty)return;const f=(e:BeforeUnloadEvent)=>e.preventDefault();addEventListener('beforeunload',f);return()=>removeEventListener('beforeunload',f)},[dirty]);
   async function login(e:FormEvent){e.preventDefault();const r=await fetch('/api/admin/login',{method:'POST',body:JSON.stringify({password:pw})});setPw('');if(r.ok){setMsg('');load()}else setMsg('Wrong password, or ADMIN_PASSWORD is not set on the server.')}
   async function save(){if(!c)return;setMsg('Saving…');const body={...c,projects:c.projects.map((p,i)=>({...p,id:String(i+1).padStart(2,'0')}))};
-    const r=await fetch('/api/admin/content',{method:'PUT',body:JSON.stringify(body)});if(r.ok){setC(body);setDirty(false);setMsg('Saved. The live site is updated.')}else setMsg('Save failed. Check your storage setup (see README).')}
+    const r=await fetch('/api/admin/content',{method:'PUT',body:JSON.stringify(body)});if(r.ok){setC(body);setDirty(false);setMsg('Saved. The live site is updated.')}else setMsg('Save failed: '+((await r.json().catch(()=>({error:''}))).error||'unknown error'))}
   const upd=(patch:Partial<Content>)=>{setC({...c!,...patch});setDirty(true)};
   const upP=(i:number,p:Partial<Project>)=>upd({projects:c!.projects.map((x,k)=>k===i?{...x,...p}:x)});
   const upS=(i:number,p:Partial<Service>)=>upd({services:c!.services.map((x,k)=>k===i?{...x,...p}:x)});

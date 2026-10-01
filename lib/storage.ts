@@ -7,5 +7,5 @@ export async function getContent():Promise<Content>{
     else return {...defaults,...JSON.parse(await fs.readFile(FILE,'utf8'))}}catch{}
   return defaults}
 export async function saveContent(c:Content){const s=sb();
-  if(s){const r=await fetch(`${s.u}/rest/v1/site_content`,{method:'POST',headers:{...s.h,Prefer:'resolution=merge-duplicates'},body:JSON.stringify({id:'main',data:c})});if(!r.ok)throw new Error('db');return}
+  if(s){const r=await fetch(`${s.u}/rest/v1/site_content`,{method:'POST',headers:{...s.h,Prefer:'resolution=merge-duplicates'},body:JSON.stringify({id:'main',data:c})});if(!r.ok)throw new Error(`Supabase ${r.status}: ${(await r.text()).slice(0,200)}`);return}
   await fs.mkdir(path.dirname(FILE),{recursive:true});await fs.writeFile(FILE,JSON.stringify(c,null,2))}

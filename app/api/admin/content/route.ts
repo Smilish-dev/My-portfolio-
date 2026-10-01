@@ -8,4 +8,4 @@ export async function PUT(req:Request){if(!await isAuthed())return NextResponse.
     c.services.every((s:any)=>typeof s.t==='string'&&typeof s.d==='string'&&strs(s.tags)&&[s.price,s.details,s.image].every(opt))&&
     c.projects.every((p:any)=>['id','cat','name','desc','problem','solution','impact'].every(k=>typeof p[k]==='string')&&[p.link,p.price,p.image].every(opt)&&strs(p.flow)&&strs(p.stack));
   if(!ok)return NextResponse.json({error:'Invalid content'},{status:400});
-  try{await saveContent(c);revalidatePath('/');return NextResponse.json({ok:true})}catch{return NextResponse.json({error:'Could not save'},{status:500})}}
+  try{await saveContent(c);revalidatePath('/');return NextResponse.json({ok:true})}catch(e){return NextResponse.json({error:e instanceof Error?e.message:'Could not save'},{status:500})}}
