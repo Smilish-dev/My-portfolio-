@@ -1,7 +1,8 @@
 'use client';
 import {useEffect,useState} from 'react';
-const links=[['Home','#home'],['Services','#services'],['Work','#work'],['About','#about'],['Contact','#contact']];
-export default function Navbar(){
+const base=[['Home','#home'],['Services','#services'],['Work','#work'],['About','#about'],['Contact','#contact']];
+export default function Navbar({products=false}:{products?:boolean}){
+  const links=products?[...base.slice(0,3),['Products','#products'],...base.slice(3)]:base;
   const [s,setS]=useState(false),[o,setO]=useState(false);
   useEffect(()=>{const f=()=>setS(scrollY>20);f();addEventListener('scroll',f,{passive:true});return()=>removeEventListener('scroll',f)},[]);
   return <header className={`nav ${s?'scrolled':''}`}><nav className="glass nav-in" aria-label="Main">
