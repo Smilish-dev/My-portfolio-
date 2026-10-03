@@ -12,7 +12,7 @@ function Img({v,on}:{v?:string;on:(v:string)=>void}){const [b,setB]=useState('')
 const blankP=():Project=>({id:'',cat:'AUTOMATION',name:'New project',desc:'',flow:['Trigger','AI','Result'],problem:'',solution:'',impact:'',stack:[]});
 export default function Admin(){
   const [c,setC]=useState<Content|null>(null),[st,setSt]=useState('load'),[pw,setPw]=useState(''),[msg,setMsg]=useState(''),[tab,setTab]=useState('hero'),[open,setOpen]=useState<number|null>(null),[dirty,setDirty]=useState(false);
-  const load=async()=>{const r=await fetch('/api/admin/content');if(r.ok){setC(await r.json());setSt('in')}else setSt('out')};
+  const load=async()=>{const r=await fetch('/api/admin/content');if(r.ok){setC(await r.json());setSt('in')}else{setSt('out');if(r.status===503)setMsg('Database unreachable. Check that your Supabase project is not paused.')}};
   useEffect(()=>{load()},[]);
   useEffect(()=>{if(!dirty)return;const f=(e:BeforeUnloadEvent)=>e.preventDefault();addEventListener('beforeunload',f);return()=>removeEventListener('beforeunload',f)},[dirty]);
   async function login(e:FormEvent){e.preventDefault();const r=await fetch('/api/admin/login',{method:'POST',body:JSON.stringify({password:pw})});setPw('');if(r.ok){setMsg('');load()}else setMsg('Wrong password, or ADMIN_PASSWORD is not set on the server.')}
@@ -22,11 +22,13 @@ export default function Admin(){
   const upP=(i:number,p:Partial<Project>)=>upd({projects:c!.projects.map((x,k)=>k===i?{...x,...p}:x)});
   const upS=(i:number,p:Partial<Service>)=>upd({services:c!.services.map((x,k)=>k===i?{...x,...p}:x)});
   const upPr=(i:number,p:Partial<Product>)=>upd({products:c!.products.map((x,k)=>k===i?{...x,...p}:x)});
+  const exportJ=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(c,null,2)],{type:'application/json'}));a.download=`portfolio-backup-${new Date().toISOString().slice(0,10)}.json`;a.click()};
+  const importJ=async(e:ChangeEvent<HTMLInputElement>)=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;try{const j=JSON.parse(await f.text());if(!j||!Array.isArray(j.projects)||!Array.isArray(j.services))throw new Error('bad');setC({...c!,...j});setDirty(true);setMsg('Backup loaded. Press Save changes to apply it.')}catch{setMsg('That file is not a valid backup.')}};
   if(st==='load')return <main className="adm"><p>Loading…</p></main>;
   if(st==='out')return <main className="adm"><form className="glass form" onSubmit={login}><h1 className="ah">Admin</h1>
     <label>Password<input type="password" value={pw} onChange={e=>setPw(e.target.value)} autoComplete="current-password"/></label><button className="btn">Sign in</button><p className="status" role="status">{msg}</p></form></main>;
   return <main className="adm wide"><header className="abar glass"><strong>Portfolio admin</strong>
-    <div className="row"><a className="btn ghost sm" href="/" target="_blank" rel="noreferrer">View site ↗</a><button className="btn sm" onClick={save}>{dirty?'Save changes':'Saved'}</button>
+    <div className="row"><a className="btn ghost sm" href="/" target="_blank" rel="noreferrer">View site ↗</a><button className="btn ghost sm" onClick={exportJ}>Backup</button><label className="btn ghost sm">Restore<input type="file" accept="application/json" hidden onChange={importJ}/></label><button className="btn sm" onClick={save}>{dirty?'Save changes':'Saved'}</button>
     <button className="btn ghost sm" onClick={async()=>{await fetch('/api/admin/login',{method:'DELETE'});setSt('out')}}>Sign out</button></div></header>
     <p className="status" role="status">{msg}</p>
     <div className="tabs" role="tablist">{['hero','projects','products','services','toolkit','contact'].map(t=><button key={t} role="tab" aria-selected={tab===t} className={tab===t?'on':''} onClick={()=>setTab(t)}>{t}</button>)}</div>
