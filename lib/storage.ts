@@ -8,7 +8,7 @@ export async function getContent(fresh=false):Promise<Content>{
   const s=sb();
   if(s){
     try{const url=`${s.u}/rest/v1/site_content?id=eq.main&select=data`;
-      const r=fresh?await fetch(url,{headers:s.h,cache:'no-store'}):await fetch(url,{headers:s.h,next:{revalidate:3600}});
+      const r=fresh?await fetch(url,{headers:s.h,cache:'no-store'}):await fetch(url,{headers:s.h,next:{revalidate:60}});
       if(!r.ok)throw new Error(`Supabase ${r.status}`);
       const j=await r.json();return j[0]?.data?merge(j[0].data):defaults}
     catch(e){if(process.env.NEXT_PHASE==='phase-production-build')return defaults;throw e}}
