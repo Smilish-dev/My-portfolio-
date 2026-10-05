@@ -109,3 +109,7 @@ select option{background:var(--navy)}.err{color:var(--blue-s);font-size:.82rem}.
 .results{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.res{padding:22px 14px;border-radius:16px;border:1px solid rgba(145,171,240,.2);background:rgba(2,4,10,.5);text-align:center;display:grid;gap:8px}
 .res small{color:var(--muted)}.res strong{font-size:clamp(1.5rem,3.4vw,2.4rem);color:var(--blue-s);letter-spacing:-.02em}.note{color:var(--muted);font-size:.85rem}
 @media(max-width:860px){.sliders{grid-template-columns:1fr}}@media(max-width:520px){.results{grid-template-columns:1fr}}
+/*adm-mobile*/.adm{grid-template-columns:minmax(0,1fr)}.adm>*{min-width:0}
+.tabs{flex-wrap:wrap}.tabs button{flex:1 1 auto;white-space:nowrap}
+.adm input,.adm select,.adm textarea{max-width:100%}
+@media(max-width:600px){.adm.wide{width:calc(100% - 20px);margin-top:12px}.abar{padding:10px 12px}.abar .row{gap:8px}.abar .btn.sm{padding:9px 12px;font-size:.82rem}.tabs button{padding:10px 12px;font-size:.9rem}.afields{padding:16px}.ahead{padding:14px 16px}}
