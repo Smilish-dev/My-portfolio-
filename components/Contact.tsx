@@ -1,5 +1,5 @@
 'use client';
-import {FormEvent,useEffect,useRef,useState} from 'react';import Reveal from './Reveal';import {submitRequest} from '@/lib/submit';import ContactLinks from './ContactLinks';import {Links} from '@/lib/data';
+import {FormEvent,useEffect,useRef,useState} from 'react';import Reveal from './Reveal';import {submitRequest} from '@/lib/submit';import {track} from '@/lib/track';import ContactLinks from './ContactLinks';import {Links} from '@/lib/data';
 export default function Contact({links,status,options}:{links:Links;status:string;options:string[]}){
   const [err,setErr]=useState<Record<string,string>>({}),[msg,setMsg]=useState(''),[busy,setBusy]=useState(false),sel=useRef<HTMLSelectElement>(null);
   useEffect(()=>{const f=(e:Event)=>{const v=(e as CustomEvent<string>).detail;if(sel.current&&options.includes(v))sel.current.value=v};addEventListener('pick-service',f);return()=>removeEventListener('pick-service',f)},[options]);
@@ -10,7 +10,7 @@ export default function Contact({links,status,options}:{links:Links;status:strin
     if((d.message||'').trim().length<10)x.message='Describe your request in at least 10 characters.';
     setErr(x);setMsg('');if(Object.keys(x).length)return;
     setBusy(true);try{const r=await submitRequest({name:d.name,email:d.email,service:d.service,message:d.message});
-      if(r==='sent'){setMsg('Request sent. Thank you.');f.reset()}else setMsg('Your details are valid, but no email service is connected yet, so nothing was sent.')}
+      if(r==='sent'){track('form_sent');setMsg('Request sent. Thank you.');f.reset()}else setMsg('Your details are valid, but no email service is connected yet, so nothing was sent.')}
     catch(e){setMsg(e instanceof Error?e.message:'Sending failed. Please try again.')}setBusy(false)}
   const E=({k}:{k:string})=>err[k]?<span className="err" role="alert">{err[k]}</span>:null;
   return <section id="contact" className="sec wrap contact" aria-labelledby="ct">

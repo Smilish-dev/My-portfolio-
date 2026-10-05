@@ -113,3 +113,5 @@ select option{background:var(--navy)}.err{color:var(--blue-s);font-size:.82rem}.
 .tabs{flex-wrap:wrap}.tabs button{flex:1 1 auto;white-space:nowrap}
 .adm input,.adm select,.adm textarea{max-width:100%}
 @media(max-width:600px){.adm.wide{width:calc(100% - 20px);margin-top:12px}.abar{padding:10px 12px}.abar .row{gap:8px}.abar .btn.sm{padding:9px 12px;font-size:.82rem}.tabs button{padding:10px 12px;font-size:.9rem}.afields{padding:16px}.ahead{padding:14px 16px}}
+
+/*stat*/.stat{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid rgba(145,171,240,.12)}.stat small{color:var(--muted);font-weight:400}
