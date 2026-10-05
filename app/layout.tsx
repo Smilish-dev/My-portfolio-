@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import {Space_Grotesk} from 'next/font/google';
 import './globals.css';
+import {Analytics} from '@vercel/analytics/next';
 const f=Space_Grotesk({subsets:['latin'],display:'swap'});
 export const metadata:Metadata={title:'Adedayo — AI Automation & Digital Systems',description:'Adedayo builds AI automation systems, real-estate workflows, web experiences and digital products.'};
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body className={f.className}>{children}</body></html>}
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body className={f.className}>{children}<Analytics/></body></html>}
