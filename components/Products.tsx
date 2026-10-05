@@ -6,4 +6,4 @@ export default function Products({products}:{products:Product[]}){
     {p.image&&<img className="pimg" src={p.image} alt={p.name} loading="lazy"/>}
     <div className="pbody"><h3>{p.name}</h3>{p.price&&<strong className="price">{p.price}</strong>}<p>{p.desc}</p>
     {p.features.length>0&&<ul className="feat">{p.features.map(f=><li key={f}>{f}</li>)}</ul>}
-    <TrackLink event="buy_product" className="btn" href={u||'#contact'} external={!!u}>{p.cta||'Get access'} ↗</TrackLink></div></Reveal>})}</div></section>}
+    <div className="pbtns"><TrackLink event="buy_product" className="btn" href={u||'#contact'} external={!!u}>{p.cta||'Get access'} ↗</TrackLink>{safeUrl(p.demo)&&<TrackLink event="watch_demo" className="btn ghost" href={safeUrl(p.demo)} external>Live demo ↗</TrackLink>}</div></div></Reveal>})}</div></section>}

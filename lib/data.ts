@@ -18,7 +18,7 @@ export const process=[['DISCOVER','Understand the business problem.'],['ARCHITEC
 
 export type Service={t:string;d:string;tags:string[];price?:string;details?:string;image?:string};
 export type Hero={hi:string;name:string;role:string;about:string;photo:string};
-export type Product={name:string;price:string;desc:string;features:string[];image:string;link:string;cta:string};
+export type Product={name:string;price:string;desc:string;features:string[];image:string;link:string;cta:string;demo?:string};
 export type Links={email:string;whatsapp:string;linkedin:string;github:string;facebook:string;instagram:string;youtube:string};
 export type Content={services:Service[];projects:Project[];tools:string[];marquee:string[];heroTags:string[];links:Links;status:string;hero:Hero;products:Product[]};
 const prices=['From $300','From $500','From $400','From $250'];
